@@ -1,5 +1,6 @@
 /home/widifirmaan/POS-Simple-UMKM-PHP/spring-boot-app/src/main/java/com/primaelectronic/pos/service/TransactionService.java
 /home/widifirmaan/POS-Simple-UMKM-PHP/spring-boot-app/src/main/java/com/primaelectronic/pos/controller/TransactionController.java
+/home/widifirmaan/POS-Simple-UMKM-PHP/spring-boot-app/src/main/java/com/primaelectronic/pos/controller/SeedController.java
 /home/widifirmaan/POS-Simple-UMKM-PHP/spring-boot-app/src/main/java/com/primaelectronic/pos/controller/BillController.java
 /home/widifirmaan/POS-Simple-UMKM-PHP/spring-boot-app/src/main/java/com/primaelectronic/pos/controller/StockController.java
 /home/widifirmaan/POS-Simple-UMKM-PHP/spring-boot-app/src/main/java/com/primaelectronic/pos/service/StockService.java
