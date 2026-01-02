@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Prima Elektronik - Tagihan</title>
+    <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <link id="pagestyle" href="/assets/css/soft-ui-dashboard.css" rel="stylesheet" />
+</head>
+
+<body class="g-sidenav-show bg-gray-100">
+    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 "
+        id="sidenav-main">
+        <div class="sidenav-header">
+            <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
+                aria-hidden="true" id="iconSidenav"></i>
+            <a class="navbar-brand m-0" href="/dashboard">
+                <h4 class="font-weight-bold">Prima Elektronik</h4>
+            </a>
+        </div>
+        <hr class="horizontal dark mt-0">
+        <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-shop text-dark"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/stock-barang">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-box text-dark"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Stock Barang</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/finance">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-money-bill text-dark"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Keuangan</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/bill">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-file-invoice text-dark"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Tagihan</span>
+                    </a>
+                </li>
+
+                <li class="nav-item mt-3">
+                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Akun</h6>
+                </li>
+                <li class="nav-item">
+                    <form action="/logout" method="post" id="logoutForm">
+                        <a class="nav-link" href="#" onclick="document.getElementById('logoutForm').submit();">
+                            <div
+                                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="fas fa-sign-out-alt text-dark"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Keluar</span>
+                        </a>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
+            navbar-scroll="true">
+            <div class="container-fluid py-1 px-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-transparent pb-0 pt-1 px-0 me-sm-6 me-5">
+                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a>
+                        </li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Tagihan</li>
+                    </ol>
+                    <h6 class="font-weight-bolder">Daftar Tagihan Sales</h6>
+                </nav>
+                <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+                    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                        <div class="input-group">
+                            <span class="input-group-text text-body"><i class="fas fa-search"
+                                    aria-hidden="true"></i></span>
+                            <input type="text" class="form-control" id="searchInput" placeholder="Cari Tagihan"
+                                onkeyup="filterTable()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="container-fluid py-4">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-4">
+                        <div class="card-body px-0 pt-0 pb-2">
+                            <div class="table-responsive p-0">
+                                <table class="table align-items-center" id="billsTable">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-uppercase text-secondary font-weight-bolder opacity-7">
+                                                Nama/Org Sales</th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary font-weight-bolder opacity- ps-2">
+                                                Nominal</th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary font-weight-bolder opacity-7">
+                                                Keterangan</th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary font-weight-bolder opacity-7">
+                                                Status</th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary font-weight-bolder opacity-7">
+                                                Date/Due Date</th>
+                                            <th class="text-secondary opacity-7"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="bill : ${bills}">
+                                            <td>
+                                                <p class="p-3" th:text="${bill.nama}">Nama</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-center font-weight-bold"
+                                                    th:text="'Rp. ' + ${bill.nominal}">Rp. 0</p>
+                                                <p class="text-center text-secondary"
+                                                    th:text="'Kekurangan Rp. ' + ${bill.nominalMinus}">Kekurangan</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-center" th:text="${bill.ket}">Keterangan</p>
+                                                <img th:if="${bill.pic != null}" th:src="${bill.pic}"
+                                                    style="max-height: 50px; display: block; margin: 0 auto;" />
+                                            </td>
+                                            <td>
+                                                <p class="text-center font-weight-bold">
+                                                    <span th:if="${bill.status == 1}"
+                                                        class="badge badge-sm bg-gradient-success">Lunas</span>
+                                                    <span th:if="${bill.status == 2}"
+                                                        class="badge badge-sm bg-gradient-danger">Belum Dibayar</span>
+                                                    <span th:if="${bill.status == 3}"
+                                                        class="badge badge-sm bg-gradient-warning">Belum Lunas</span>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="text-center font-weight-bold" th:text="${bill.createdAt}">Date
+                                                </p>
+                                                <p class="text-center text-secondary" th:text="${bill.dueDate}">
+                                                    Duplicate</p>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                    th:attr="data-bs-target='#editBillModal'+${bill.id}">Edit</button>
+                                                <button class="btn btn-danger btn-sm"
+                                                    th:onclick="'deleteBill(' + ${bill.id} + ')'">Hapus</button>
+
+                                                <!-- Edit Modal -->
+                                                <div class="modal fade" th:id="'editBillModal' + ${bill.id}"
+                                                    tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Edit Bill</h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form th:id="'editBillForm' + ${bill.id}">
+                                                                    <input type="hidden" name="id"
+                                                                        th:value="${bill.id}">
+                                                                    <div class="form-group">
+                                                                        <label>Foto Pelunasan</label>
+                                                                        <input type="file" class="form-control"
+                                                                            accept="image/*"
+                                                                            th:onchange="'compressImage(this, \'previewEdit' + ${bill.id} + '\', \'picEdit' + ${bill.id} + '\')'">
+                                                                        <input type="hidden" name="pic"
+                                                                            th:id="'picEdit' + ${bill.id}"
+                                                                            th:value="${bill.pic}">
+                                                                        <img th:id="'previewEdit' + ${bill.id}"
+                                                                            th:src="${bill.pic}" class="img-fluid mt-2"
+                                                                            style="max-height: 200px;">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label>Nama Sales</label>
+                                                                        <input type="text" class="form-control"
+                                                                            name="nama" th:value="${bill.nama}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label>Nominal</label>
+                                                                        <input type="text" class="form-control"
+                                                                            name="nominal" th:value="${bill.nominal}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label>Kekurangan</label>
+                                                                        <input type="number" class="form-control"
+                                                                            name="nominalMinus"
+                                                                            th:value="${bill.nominalMinus}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label>Jatuh Tempo</label>
+                                                                        <input type="date" class="form-control"
+                                                                            name="dueDate" th:value="${bill.dueDate}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label>Keterangan</label>
+                                                                        <textarea class="form-control" name="ket"
+                                                                            rows="3" th:text="${bill.ket}"></textarea>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label>Status</label>
+                                                                        <select class="form-control" name="status">
+                                                                            <option value="1"
+                                                                                th:selected="${bill.status == 1}">Lunas
+                                                                            </option>
+                                                                            <option value="2"
+                                                                                th:selected="${bill.status == 2}">Belum
+                                                                                Dibayar</option>
+                                                                            <option value="3"
+                                                                                th:selected="${bill.status == 3}">Belum
+                                                                                Lunas</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn bg-gradient-secondary"
+                                                                    data-bs-dismiss="modal">Close</button>
+                                                                <button type="button" class="btn bg-gradient-primary"
+                                                                    th:onclick="'saveBill(' + ${bill.id} + ')'">Save
+                                                                    changes</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="fixed-plugin">
+        <a class="fixed-plugin-button text-dark position-fixed px-3 py-2" data-bs-toggle="modal"
+            data-bs-target="#addBillModal">
+            <i class="fa fa-plus py-2"> </i>
+        </a>
+    </div>
+
+    <!-- Add Modal -->
+    <div class="modal fade" id="addBillModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Tagihan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addBillForm">
+                        <div class="form-group">
+                            <label>Foto Pelunasan</label>
+                            <input type="file" class="form-control" accept="image/*"
+                                onchange="compressImage(this, 'previewAdd', 'picAdd')">
+                            <input type="hidden" name="pic" id="picAdd">
+                            <img id="previewAdd" class="img-fluid mt-2" style="display:none; max-height: 200px;">
+                        </div>
+                        <div class="form-group">
+                            <label>Nama Sales</label>
+                            <input type="text" class="form-control" name="nama" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nominal</label>
+                            <input type="text" class="form-control" name="nominal" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Kekurangan</label>
+                            <input type="number" class="form-control" name="nominalMinus" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Jatuh Tempo</label>
+                            <input type="date" class="form-control" name="dueDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Keterangan</label>
+                            <textarea class="form-control" name="ket" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select class="form-control" name="status">
+                                <option value="2">Belum Dibayar</option>
+                                <option value="1">Lunas</option>
+                                <option value="3">Belum Lunas</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn bg-gradient-primary" onclick="addBill()">Tambah</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function filterTable() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toUpperCase();
+            const table = document.getElementById('billsTable');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                let match = false;
+                if (cells.length > 0) {
+                    if (cells[0].textContent.toUpperCase().includes(filter)) {
+                        match = true;
+                    }
+                }
+                rows[i].style.display = match ? '' : 'none';
+            }
+        }
+
+        function compressImage(input, previewId, dataId) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = function () {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        canvas.width = 1080;
+                        canvas.height = 1080;
+                        ctx.drawImage(img, 0, 0, 1080, 1080);
+                        const base64 = canvas.toDataURL('image/jpeg', 0.8);
+
+                        document.getElementById(previewId).src = base64;
+                        document.getElementById(previewId).style.display = 'block';
+                        document.getElementById(dataId).value = base64;
+                    }
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function addBill() {
+            const form = document.getElementById('addBillForm');
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            // Handle numbers/dates if necessary or depend on backend JSON parsing
+            fetch('/api/bills', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).then(res => {
+                if (res.ok) window.location.reload();
+                else alert('Error adding bill');
+            });
+        }
+
+        function saveBill(id) {
+            const form = document.getElementById('editBillForm' + id);
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            fetch('/api/bills/' + id, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).then(res => {
+                if (res.ok) window.location.reload();
+                else alert('Error updating bill');
+            });
+        }
+
+        function deleteBill(id) {
+            if (confirm('Are you sure?')) {
+                fetch('/api/bills/' + id, {
+                    method: 'DELETE'
+                }).then(res => {
+                    if (res.ok) window.location.reload();
+                    else alert('Error deleting bill');
+                });
+            }
+        }
+
+    </script>
+
+    <script src="/assets/js/core/popper.min.js"></script>
+    <script src="/assets/js/core/bootstrap.min.js"></script>
+    <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="/assets/js/soft-ui-dashboard.min.js"></script>
+</body>
+
+</html>

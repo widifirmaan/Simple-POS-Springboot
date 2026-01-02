@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>
+        Prima Elektronik - Keuangan
+    </title>
+    <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <link id="pagestyle" href="/assets/css/soft-ui-dashboard.css" rel="stylesheet" />
+    <script type="text/javascript" src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+</head>
+
+<body class="g-sidenav-show bg-gray-100">
+    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 "
+        id="sidenav-main">
+        <div class="sidenav-header">
+            <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
+                aria-hidden="true" id="iconSidenav"></i>
+            <a class="navbar-brand m-0" href="/dashboard">
+                <h4 class="font-weight-bold">Prima Elektronik</h4>
+            </a>
+        </div>
+        <hr class="horizontal dark mt-0">
+        <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-shop text-dark"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/stock-barang">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-box text-dark"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Stock Barang</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/finance">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-money-bill text-dark"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Keuangan</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/bill">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-file-invoice text-dark"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Tagihan</span>
+                    </a>
+                </li>
+
+                <li class="nav-item mt-3">
+                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Akun</h6>
+                </li>
+                <li class="nav-item">
+                    <form action="/logout" method="post" id="logoutForm">
+                        <a class="nav-link" href="#" onclick="document.getElementById('logoutForm').submit();">
+                            <div
+                                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="fas fa-sign-out-alt text-dark"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Keluar</span>
+                        </a>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </aside>
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
+            navbar-scroll="true">
+            <div class="container-fluid py-1 px-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a>
+                        </li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Keuangan</li>
+                    </ol>
+                    <h6 class="font-weight-bolder mb-0">Keuangan dan Laporan</h6>
+                </nav>
+            </div>
+        </nav>
+        <div class="container-fluid py-4">
+            <div class="row">
+                <div class="col-lg-8 col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header text-center pb-0">
+                                    <div
+                                        class="icon icon-shape icon-lg bg-primary shadow text-center border-radius-lg mx-auto d-flex align-items-center justify-content-center p-0">
+                                        <i class="fas fa-money-bill-trend-up opacity-10"
+                                            style="font-size: 1.5rem; color: white; margin-top: -20px;"></i>
+                                    </div>
+                                </div>
+                                <div class="card-body pt-0 p-3 text-center">
+                                    <h6 class="text-center mb-0 mt-2">Laba Kotor</h6>
+                                    <span class="text-xs">Bulan Ini</span>
+                                    <hr class="horizontal dark my-3">
+                                    <h5 class="mb-0" th:text="${labaKotorMonth}">Rp. 0</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-md-0 mt-4">
+                            <div class="card">
+                                <div class="card-header text-center pb-0">
+                                    <div
+                                        class="icon icon-shape icon-lg bg-primary shadow text-center border-radius-lg mx-auto d-flex align-items-center justify-content-center p-0">
+                                        <i class="fas fa-truck opacity-10"
+                                            style="font-size: 1.5rem; color: white; margin-top: -20px;"></i>
+                                    </div>
+                                </div>
+                                <div class="card-body pt-0 p-3 text-center">
+                                    <h6 class="text-center mb-0 mt-2">Barang Terjual Bulan ini</h6>
+                                    <span class="text-xs">Barang Keluar</span>
+                                    <hr class="horizontal dark my-3">
+                                    <h5 class="mb-0" th:text="${soldItemsMonth}">0</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card p-3 mt-3">
+                        <form role="form" action="/finance" method="GET">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label for="tgldari">Dari: </label>
+                                        <input type="date" class="form-control" id="tgldari" name="tgldari"
+                                            th:value="${tgldari}" required>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label for="tglsampai">Sampai: </label>
+                                        <input type="date" class="form-control" id="tglsampai" name="tglsampai"
+                                            th:value="${tglsampai}" required>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label for="pilihtoko">Pilih Toko: </label>
+                                        <select class="form-select" id="pilihtoko" name="pilihtoko" required>
+                                            <option value="0" th:selected="${pilihtoko == 0}">Semua Toko</option>
+                                            <option value="1" th:selected="${pilihtoko == 1}">Toko 1</option>
+                                            <option value="2" th:selected="${pilihtoko == 2}">Toko 2</option>
+                                            <option value="3" th:selected="${pilihtoko == 3}">Toko 3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <button class="btn btn-primary w-100 mt-3" type="submit">Cari</button>
+                                </div>
+                                <div class="col-6">
+                                    <button class="btn btn-primary w-100 mt-3" type="button"
+                                        onClick="exportTableToExcel('transaksitbl')">Cetak Excel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-12 mt-4 mt-lg-0">
+                    <div class="card h-100">
+                        <div class="card-header pb-0 p-3">
+                            <div class="row">
+                                <div class="col-6 d-flex align-items-center">
+                                    <h6 class="mb-0">Nota Hari Ini</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-3 pb-0">
+                            <ul class="list-group">
+                                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg"
+                                    th:each="inv : ${invoices}">
+                                    <div class="d-flex flex-column">
+                                        <h6 class="mb-1 text-dark font-weight-bold text-sm"
+                                            th:text="${#temporals.format(inv.tgl, 'yyyy-MM-dd HH:mm')}">Date</h6>
+                                        <span class="text-xs" th:text="'ID Nota: ' + ${inv.id}">ID</span>
+                                    </div>
+                                    <div class="d-flex align-items-center text-sm">
+                                        <span
+                                            th:text="'Rp. ' + ${#numbers.formatDecimal(inv.money, 0, 'COMMA', 0, 'POINT')}">Rp.
+                                            0</span>
+                                        <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"
+                                            th:data-id="'printableArea' + ${inv.id}"
+                                            onclick="printDiv(this.getAttribute('data-id'))"><i
+                                                class="fas fa-print text-lg me-1"></i>Print</button>
+                                    </div>
+                                    <!-- Hidden Printable Area for Inv -->
+                                    <div th:id="'printableArea' + ${inv.id}" hidden th:utext="${inv.nota}"></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card h-100 mb-4">
+                        <div class="card-header pb-0 px-3">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6 class="mb-0 text-uppercase text-secondary font-weight-bolder">Transaksi</h6>
+                                </div>
+                                <div class="col-md-6 d-flex justify-content-end align-items-center">
+                                    <i class="far fa-calendar-alt me-2"></i>
+                                    <small th:text="${tgldari} + ' - ' + ${tglsampai}">Dates</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body pt-4 p-3" id="transaksitbl">
+                            <table class="table text-center p-4">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center text-uppercase text-secondary font-weight-bolder">Tanggal
+                                        </th>
+                                        <th class="text-center text-uppercase text-secondary font-weight-bolder">Toko
+                                        </th>
+                                        <th class="text-center text-uppercase text-secondary font-weight-bolder">Barang
+                                            (Jumlah)</th>
+                                        <th class="text-center text-uppercase text-secondary font-weight-bolder">Nominal
+                                        </th>
+                                        <th class="text-center text-uppercase text-secondary font-weight-bolder">
+                                            Pembayaran</th>
+                                        <th class="rmvBtn"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="tr : ${transactions}">
+                                        <td th:text="${#temporals.format(tr.date, 'yyyy-MM-dd')}">Date</td>
+                                        <td th:text="${tr.toko}">Toko</td>
+                                        <td th:text="${tr.product}">Products</td>
+                                        <td
+                                            th:text="'Rp. ' + ${#numbers.formatDecimal(tr.amount, 0, 'COMMA', 0, 'POINT')}">
+                                            Amount</td>
+                                        <td th:text="${tr.payment}">Payment</td>
+                                        <td class="rmvBtn">
+                                            <button class="btn btn-sm btn-primary" th:data-id="${tr.id}"
+                                                th:data-product="${tr.product}" th:data-amount="${tr.amount}"
+                                                th:data-payment="${tr.payment}" th:data-toko="${tr.toko}"
+                                                onclick="openEditModal(this)">Edit</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6" class="text-end fw-bold"
+                                            th:text="'Total: Rp. ' + ${#numbers.formatDecimal(totalFiltered, 0, 'COMMA', 0, 'POINT')}">
+                                            Total</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer pt-3">
+                <div class="container-fluid">
+                    <div class="row align-items-center justify-content-lg-between">
+                        <div class="col-lg-6 mb-lg-0 mb-4">
+                            <div class="copyright text-center text-sm text-muted text-lg-start">
+                                © Prima Elektronik
+                                <script>document.write(new Date().getFullYear())</script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </main>
+
+    <!-- Print Confirmation Modal -->
+    <div class="modal fade" id="printModal" tabindex="-1" role="dialog" aria-labelledby="printModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="printModalLabel">Konfirmasi Cetak</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="printModalBody">
+                    Apakah Anda yakin ingin mencetak?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn bg-gradient-primary" onclick="executePrint()">Ya, Cetak</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Transaction Modal -->
+    <div class="modal fade" id="editTransactionModal" tabindex="-1" role="dialog" aria-labelledby="editTransLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editTransLabel">Edit Transaksi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editTransForm">
+                        <input type="hidden" id="editTransId">
+                        <div class="form-group">
+                            <label for="editProductTags">Barang</label>
+                            <div class="tag-container" id="tagContainer"
+                                onclick="document.getElementById('tagInput').focus()">
+                                <input type="text" class="tag-input" id="tagInput" placeholder="Tambah barang..."
+                                    autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="editAmount">Nominal</label>
+                            <input type="number" class="form-control" id="editAmount" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editPayment">Pembayaran</label>
+                            <select class="form-select" id="editPayment">
+                                <option value="CASH">CASH</option>
+                                <option value="QRIS">QRIS</option>
+                                <option value="TRANSFER">TRANSFER</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editToko">Toko</label>
+                            <input type="number" class="form-control" id="editToko" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn bg-gradient-primary" onclick="saveTransaction()">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @media print {
+            .rmvBtn {
+                display: none !important;
+            }
+
+            .card {
+                box-shadow: none !important;
+                border: none !important;
+            }
+        }
+
+        /* Tag Input Styles */
+        .tag-container {
+            border: 1px solid #d2d6da;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem;
+            min-height: 40px;
+            background-color: #fff;
+        }
+
+        .tag-container:focus-within {
+            border-color: #cb0c9f;
+            box-shadow: 0 0 0 0.2rem rgba(203, 12, 159, 0.25);
+        }
+
+        .tag {
+            background-color: #e9ecef;
+            border-radius: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            display: flex;
+            align-items: center;
+            font-size: 0.875rem;
+            color: #344767;
+            font-weight: 600;
+        }
+
+        .tag-close {
+            margin-left: 0.5rem;
+            cursor: pointer;
+            font-weight: bold;
+            color: #8392ab;
+        }
+
+        .tag-close:hover {
+            color: #344767;
+        }
+
+        .tag-input {
+            border: none;
+            outline: none;
+            flex-grow: 1;
+            min-width: 100px;
+            background: transparent;
+            font-size: 0.875rem;
+            color: #495057;
+        }
+    </style>
+
+    <script>
+        let pendingPrintId = null;
+
+        function printDiv(divId) {
+            pendingPrintId = divId;
+            document.getElementById('printModalBody').innerText = "Cetak Transaksi Ini?";
+            const modal = new bootstrap.Modal(document.getElementById('printModal'));
+            modal.show();
+        }
+
+        function executePrint() {
+            if (pendingPrintId) {
+                var printContents = document.getElementById(pendingPrintId).innerHTML;
+                document.body.innerHTML = printContents;
+                window.print();
+                window.location.reload();
+            }
+        }
+
+        function exportTableToExcel(divId) {
+            var originalTable = document.querySelector("#" + divId + " table");
+            if (!originalTable) {
+                // Try to find if divId IS the table or contains it
+                var container = document.getElementById(divId);
+                if (container && container.tagName === 'TABLE') {
+                    originalTable = container;
+                } else if (container) {
+                    originalTable = container.querySelector('table');
+                }
+            }
+
+            if (originalTable) {
+                var tableClone = originalTable.cloneNode(true);
+
+                // Remove the last column (Action column) from header and rows
+                var rows = tableClone.rows;
+                for (var i = 0; i < rows.length; i++) {
+                    if (rows[i].cells.length > 0) {
+                        rows[i].deleteCell(-1);
+                    }
+                }
+
+                var wb = XLSX.utils.table_to_book(tableClone, { sheet: "Sheet1" });
+                XLSX.writeFile(wb, 'Laporan_Transaksi.xlsx');
+            } else {
+                alert("Tabel tidak ditemukan!");
+            }
+        }
+
+        // Tag Input Functions
+        function createTag(text) {
+            const div = document.createElement('div');
+            div.className = 'tag';
+            div.innerHTML = `<span class="tag-text">${text}</span><span class="tag-close" onclick="removeTag(this)">&times;</span>`;
+            return div;
+        }
+
+        function removeTag(element) {
+            element.parentElement.remove();
+        }
+
+        function addTag(text) {
+            const cleanText = text.trim();
+            if (cleanText) {
+                const container = document.getElementById('tagContainer');
+                const input = document.getElementById('tagInput');
+                container.insertBefore(createTag(cleanText), input);
+                input.value = '';
+            }
+        }
+
+        document.getElementById('tagInput').addEventListener('keydown', function (e) {
+            if (e.key === ',' || e.key === 'Enter') {
+                e.preventDefault();
+                addTag(this.value.replace(',', ''));
+            }
+            if (e.key === 'Backspace' && this.value === '') {
+                const tags = document.querySelectorAll('#tagContainer .tag');
+                if (tags.length > 0) {
+                    tags[tags.length - 1].remove();
+                }
+            }
+        });
+
+        function openEditModal(btn) {
+            const id = btn.getAttribute('data-id');
+            const product = btn.getAttribute('data-product');
+            const amount = btn.getAttribute('data-amount');
+            const payment = btn.getAttribute('data-payment');
+            const toko = btn.getAttribute('data-toko');
+
+            document.getElementById('editTransId').value = id;
+            document.getElementById('editAmount').value = amount;
+            document.getElementById('editPayment').value = payment;
+            document.getElementById('editToko').value = toko;
+
+            // Clear existing tags
+            const container = document.getElementById('tagContainer');
+            const tags = container.querySelectorAll('.tag');
+            tags.forEach(t => t.remove());
+
+            // Add tags from product string
+            if (product) {
+                product.split(',').forEach(p => {
+                    if (p.trim()) addTag(p.trim());
+                });
+            }
+
+            const modal = new bootstrap.Modal(document.getElementById('editTransactionModal'));
+            modal.show();
+        }
+
+        function saveTransaction() {
+            const id = document.getElementById('editTransId').value;
+            const amount = document.getElementById('editAmount').value;
+            const payment = document.getElementById('editPayment').value;
+            const toko = document.getElementById('editToko').value;
+
+            // Reconstruct product string from tags
+            const tagElements = document.querySelectorAll('#tagContainer .tag-text');
+            let productString = Array.from(tagElements).map(el => el.innerText).join(', ');
+            // The original product string might have a trailing comma if it was empty after the last item.
+            // If you want to strictly replicate the original format, you might need more complex logic.
+            // For now, a simple comma-separated string is generated.
+            // If the original format was "item1, item2, ", and you want to preserve that,
+            // you might add a trailing comma if there are any tags.
+            // For example: if (tagElements.length > 0) productString += ', ';
+            // However, a clean CSV is usually preferred. Let's stick to clean CSV.
+
+            const data = {
+                product: productString,
+                amount: parseInt(amount),
+                payment: payment,
+                toko: parseInt(toko)
+            };
+
+            fetch(`/api/transactions/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Transaksi berhasil diperbarui');
+                        window.location.reload();
+                    } else {
+                        alert('Gagal memperbarui transaksi');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menyimpan');
+                });
+        }
+    </script>
+
+    <script src="/assets/js/core/popper.min.js"></script>
+    <script src="/assets/js/core/bootstrap.min.js"></script>
+    <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="/assets/js/soft-ui-dashboard.min.js"></script>
+</body>
+
+</html>
