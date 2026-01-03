@@ -1,0 +1,23 @@
+{
+  "name": "spring-boot-app",
+  "version": "1.0.0",
+  "description": "A comprehensive Point of Sales (POS) system designed to streamline day-to-day operations for small to medium-sized electronics retailers (UMKM). This application handles inventory, sales transactions, financial reporting, and billing management.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/widifirmaan/Simple-POS-Springboot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/widifirmaan/Simple-POS-Springboot/issues"
+  },
+  "homepage": "https://github.com/widifirmaan/Simple-POS-Springboot#readme",
+  "dependencies": {
+    "puppeteer": "^24.34.0"
+  }
+}

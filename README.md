@@ -13,6 +13,21 @@ Username: kasir
 Password: 123
 
 
+
+## 📸 Screenshots
+
+| Login | Dashboard |
+| :---: | :---: |
+| ![Login](screenshots/login.png) | ![Dashboard](screenshots/dashboard.png) |
+
+| Kasir | Stock Barang |
+| :---: | :---: |
+| ![Kasir](screenshots/kasir.png) | ![Stock Barang](screenshots/stock.png) |
+
+| Bill | Finance |
+| :---: | :---: |
+| ![Bill](screenshots/bill.png) | ![Finance](screenshots/finance.png) |
+
 ## 🚀 Features
 
 ### 📦 Stock Management (Inventory)

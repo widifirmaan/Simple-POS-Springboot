@@ -29,7 +29,6 @@ public class SeedController {
     public String seedData() {
         StringBuilder result = new StringBuilder();
 
-        // Seed Users
         if (userRepository.findByUsername("hamam").isEmpty()) {
             User admin = new User();
             admin.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
@@ -40,7 +39,10 @@ public class SeedController {
             userRepository.save(admin);
             result.append("Admin user created (hamam/123). <br/>");
         } else {
-            result.append("Admin user already exists. <br/>");
+            User admin = userRepository.findByUsername("hamam").get();
+            admin.setPassword("123");
+            userRepository.save(admin);
+            result.append("Admin password reset to 123. <br/>");
         }
 
         if (userRepository.findByUsername("kasir").isEmpty()) {
@@ -53,7 +55,10 @@ public class SeedController {
             userRepository.save(kasir);
             result.append("Kasir user created (kasir/123). <br/>");
         } else {
-            result.append("Kasir user already exists. <br/>");
+            User kasir = userRepository.findByUsername("kasir").get();
+            kasir.setPassword("123");
+            userRepository.save(kasir);
+            result.append("Kasir password reset to 123. <br/>");
         }
 
         // Seed Stocks
