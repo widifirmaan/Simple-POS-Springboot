@@ -2,6 +2,17 @@
 
 A comprehensive Point of Sales (POS) system designed to streamline day-to-day operations for small to medium-sized electronics retailers (UMKM). This application handles inventory, sales transactions, financial reporting, and billing management.
 
+DEMO: https://pos.widifirmaan.web.id
+
+Admin: 
+Username: hamam
+Password: 123
+
+Kasir: 
+Username: kasir
+Password: 123
+
+
 ## 🚀 Features
 
 ### 📦 Stock Management (Inventory)

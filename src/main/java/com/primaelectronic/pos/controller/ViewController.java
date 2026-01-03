@@ -26,9 +26,6 @@ public class ViewController {
     private TransactionRepository transactionRepository;
 
     @Autowired
-    private com.primaelectronic.pos.repository.BillRepository billRepository;
-
-    @Autowired
     private com.primaelectronic.pos.repository.InvoiceRepository invoiceRepository;
 
     @Autowired
@@ -169,12 +166,24 @@ public class ViewController {
         return "redirect:/dashboard";
     }
 
+    @Autowired
+    private com.primaelectronic.pos.service.BillService billService;
+
     @GetMapping("/bill")
-    public String bill(HttpSession session, Model model) {
+    public String bill(@RequestParam(required = false) String search, HttpSession session, Model model) {
         if (session.getAttribute("user") == null) {
             return "redirect:/";
         }
-        model.addAttribute("bills", billRepository.findAll());
+
+        List<com.primaelectronic.pos.model.Bill> bills;
+        if (search != null && !search.isEmpty()) {
+            bills = billService.getBillsByName(search);
+            model.addAttribute("search", search);
+        } else {
+            bills = billService.getAllBills();
+        }
+
+        model.addAttribute("bills", bills);
         return "bill";
     }
 

@@ -49,4 +49,9 @@ public class BillServiceImpl implements BillService {
     public void deleteBill(long id) {
         billRepository.deleteById(id);
     }
+
+    @Override
+    public List<Bill> getBillsByName(String name) {
+        return billRepository.findByNamaContainingIgnoreCase(name);
+    }
 }

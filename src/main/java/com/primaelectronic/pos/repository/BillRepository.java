@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface BillRepository extends MongoRepository<Bill, Long> {
     List<Bill> findByStatus(int status);
+
+    List<Bill> findByNamaContainingIgnoreCase(String nama);
 }

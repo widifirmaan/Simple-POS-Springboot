@@ -11,4 +11,6 @@ public interface BillService {
     Bill updateBill(long id, Bill details);
 
     void deleteBill(long id);
+
+    List<Bill> getBillsByName(String name);
 }

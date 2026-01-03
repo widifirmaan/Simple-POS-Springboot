@@ -92,12 +92,15 @@
                 </nav>
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                        <div class="input-group">
-                            <span class="input-group-text text-body"><i class="fas fa-search"
-                                    aria-hidden="true"></i></span>
-                            <input type="text" class="form-control" id="searchInput" placeholder="Cari Tagihan"
-                                onkeyup="filterTable()">
-                        </div>
+                        <form action="/bill" method="get">
+                            <div class="input-group">
+                                <span class="input-group-text text-body"><i class="fas fa-search"
+                                        aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" name="search" th:value="${search}"
+                                    placeholder="Cari Tagihan..."
+                                    onkeydown="if(event.key === 'Enter') this.form.submit()">
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -106,6 +109,15 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card mb-4">
+                        <div class="card-header pb-0">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6>Daftar Tagihan Sales</h6>
+                                <button type="button" class="btn btn-primary btn-sm mb-0" data-bs-toggle="modal"
+                                    data-bs-target="#addBillModal">
+                                    <i class="fas fa-plus me-2"></i> Tambah Tagihan
+                                </button>
+                            </div>
+                        </div>
                         <div class="card-body px-0 pt-0 pb-2">
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center" id="billsTable">
@@ -257,12 +269,7 @@
         </div>
     </main>
 
-    <div class="fixed-plugin">
-        <a class="fixed-plugin-button text-dark position-fixed px-3 py-2" data-bs-toggle="modal"
-            data-bs-target="#addBillModal">
-            <i class="fa fa-plus py-2"> </i>
-        </a>
-    </div>
+
 
     <!-- Add Modal -->
     <div class="modal fade" id="addBillModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel"
