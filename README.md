@@ -1,6 +1,6 @@
-# ⚡ POS Simple UMKM - Modern Retail Management System
+# ⚡ Simpos - Spring Boot Retail Management Project
 
-**POS Simple UMKM** is a comprehensive Point of Sales (POS) system designed to streamline day-to-day operations for small to medium-sized electronics retailers (UMKM). Built with **Spring Boot** and **MongoDB**, it provides a robust solution for inventory management, sales transactions, and financial reporting.
+**Simpos** is a robust, full-stack Point of Sale system built with **Spring Boot 3** and **MongoDB**. It is designed as a lightweight yet comprehensive solution for small electronics retailers, implementing a multi-role (Admin/Cashier) architecture with real-time stock reconciliation, financial reporting, and integrated document management.
 
 ![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.2.4-green?style=for-the-badge&logo=spring)
@@ -9,54 +9,36 @@
 
 ---
 
-## 📸 Application Showcase
+## 🏗️ Technical Architecture
 
-Explore the features of **POS Simple UMKM** through the interface gallery.
+### Backend: Spring Boot 3
+- **Spring Data MongoDB**: Implements a NoSQL data layer for high-flexibility product schemas and transaction logging.
+- **Spring Security**: Role-based access control (RBAC) ensuring data isolation between administrative and cashier functions.
+- **Maven Dependency Management**: Optimized build lifecycle for production-ready JAR deployment.
 
-| | |
-|:---:|:---:|
-| ![Login](screenshots/login.png)<br>**Secure Login** | ![Dashboard](screenshots/dashboard.png)<br>**Admin Dashboard** |
-| ![Kasir](screenshots/kasir.png)<br>**Point of Sale Interface** | ![Stock Barang](screenshots/stock.png)<br>**Inventory Management** |
-| ![Bill](screenshots/bill.png)<br>**Billing & Invoicing** | ![Finance](screenshots/finance.png)<br>**Financial Reporting** |
+### Frontend: Thymeleaf Engine
+- **Server-Side Rendering (SSR)**: Leveraging Thymeleaf for rapid UI generation with zero client-side framework overhead.
+- **Bootstrap 5 UI**: Fully responsive grid system with custom CSS for a modern retail aesthetic.
+- **Digital Proof Workflow**: Integrated file handling for uploading and storing payment receipt images directly into the transaction records.
 
----
-
-## 🚀 Features Overview
-
-### 📦 Stock Management (Inventory)
-*   **Real-time Stock Tracking**: Monitor product quantities across multiple stores.
-*   **Product Management**: Add, edit, and delete product details (Name, Price, Quantity).
-*   **Quick Search**: Instantly find products by name or unique ID.
-
-### 💰 Finance & Transactions
-*   **Point of Sale**: Process sales with multiple payment methods (Cash, QRIS, Transfer).
-*   **Transaction History**: View detailed logs of all sales activities.
-*   **Smart Reports**: Filter transactions by date range and store location.
-*   **Financial Insights**: Track gross profit (Laba Kotor) and total volume sold.
-
-### 🧾 Billing & Invoicing
-*   **Bill Tracking**: Manage sales bills with due dates and payment status (Lunas, Belum Bayar/Lunas).
-*   **Digital Proof**: Upload and store images of payment receipts for verification.
-*   **Status Management**: Seamlessly update billing states and track outstanding balances.
-
-### 🖨️ Pricing & Export
-*   **Thermal Printing**: Generate and print physical receipts for customers.
-*   **Excel Export**: Download transaction data as **.xlsx** files for advanced analysis.
-*   **Print Reports**: Print filtered reports directly from your browser.
+### Key Functional Systems
+- **Stock Controller**: Real-time inventory tracking with multi-location support and low-stock flagging.
+- **Reporting Engine**: Dynamic transaction filtering by date/location with calculated gross profit (Laba Kotor) and volume metrics.
+- **Export Services**: Server-side Excel generation using Apache POI for transaction data archiving.
 
 ---
 
 ## 🛠 Tech Stack
 
-### Backend & Database
-*   **Framework**: Java 17+ & Spring Boot 3.2.4
-*   **Database**: MongoDB (NoSQL)
-*   **Build Tool**: Maven
-
-### Frontend & UI
-*   **Templating**: Thymeleaf
-*   **Styling**: Bootstrap 5 & Custom CSS
-*   **Logic**: JavaScript (Vanilla)
+| Layer | Technology |
+|---|---|
+| **Backend Framework** | Spring Boot 3.2.4 |
+| **Language** | Java 17 (LTS) |
+| **Database** | MongoDB (NoSQL) |
+| **Build Tool** | Maven |
+| **Templating** | Thymeleaf |
+| **Styling** | Bootstrap 5 + Vanilla CSS |
+| **Reporting** | Apache POI (Excel) |
 
 ---
 
@@ -66,12 +48,12 @@ Explore the features of **POS Simple UMKM** through the interface gallery.
 /
 ├── src/
 │   ├── main/
-│   │   ├── java/        # Core Application Logic
-│   │   └── resources/   # Templates, Statics, and Config
-│   └── test/           # Unit and Integration Tests
-├── screenshots/         # Project Documentation Images
-├── pom.xml              # Maven Configuration
-└── README.md            # Documentation
+│   │   ├── java/        # Controller, Service, Repository, Model layers
+│   │   └── resources/   # Thymeleaf templates, application.properties, static assets
+│   └── test/           # Integration tests for transaction logic
+├── screenshots/         # UI documentation
+├── pom.xml              # Maven dependency and build config
+└── README.md
 ```
 
 ---
@@ -79,48 +61,22 @@ Explore the features of **POS Simple UMKM** through the interface gallery.
 ## 📦 Getting Started
 
 ### Prerequisites
-*   **JDK 17+**
-*   **MongoDB** (running on port `27017`)
-*   **Maven**
+- **JDK 17+**
+- **MongoDB** (running on port `27017`)
+- **Maven** (optional, uses `mvnw` wrapper)
 
-### 1. Database Configuration
-Ensure MongoDB is running. The application connects to `mongodb://localhost:27017/primaelectronic` by default. Update connection strings in:
-`src/main/resources/application.properties`
-
-### 2. Build & Run
+### Setup & Run
 ```bash
-# Build the project
-./mvnw clean package
+git clone https://github.com/widifirmaan/springboot-simple-pos.git
+cd springboot-simple-pos
 
-# Run the application
+# Build and execute via Maven Wrapper
+./mvnw clean package
 ./mvnw spring-boot:run
 ```
-
-### 3. Access & Login
-Open `http://localhost:8081` in your browser.
-
-**Admin Credentials:**
-*   **Username:** `hamam`
-*   **Password:** `123`
-
-**Kasir Credentials:**
-*   **Username:** `kasir`
-*   **Password:** `123`
+*Access via `http://localhost:8081`*
 
 ---
 
 ## 👥 Authors
-
-Developed by **Widi Firmaan**.
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License.
+Developed by **Widi Firmaansyah**.
