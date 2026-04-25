@@ -9,6 +9,16 @@
 
 ---
 
+Explore the comprehensive features of **Simpos** through our gallery.
+
+| | |
+|:---:|:---:|
+| ![Login](screenshots/login.png)<br>**Authentication Gateway** | ![Dashboard](screenshots/dashboard.png)<br>**Administrative Dashboard** |
+| ![Stock](screenshots/stock.png)<br>**Inventory Management** | ![Kasir](screenshots/kasir.png)<br>**POS Transaction Interface** |
+| ![Finance](screenshots/finance.png)<br>**Financial Reporting** | ![Bill](screenshots/bill.png)<br>**Digital Receipt / Invoice** |
+
+---
+
 ## 🏗️ Technical Architecture
 
 ### Backend: Spring Boot 3
@@ -79,4 +89,8 @@ cd springboot-simple-pos
 ---
 
 ## 👥 Authors
-Developed by **Widi Firmaansyah**.
+Developed with ❤️ by **Widi Firmansyah**.
+
+---
+
+**Streamlining retail operations with modern tech** 🚀
